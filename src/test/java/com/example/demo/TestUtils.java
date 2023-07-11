@@ -19,20 +19,19 @@ public class TestUtils {
 
         try {
             Field declaredField = target.getClass().getDeclaredField(fieldName);
-            if(!declaredField.isAccessible()){
+            if (!declaredField.isAccessible()) {
                 declaredField.setAccessible(true);
                 wasPrivate = true;
             }
 
             declaredField.set(target, toInject);
-            if(wasPrivate){
+            if (wasPrivate) {
                 declaredField.setAccessible(false);
             }
 
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -57,6 +56,9 @@ public class TestUtils {
         return cart;
     }
 
+    /*
+     * Create a List of 2 Item objects
+     */
     public static List<Item> createItems() {
 
         List<Item> items = new ArrayList<>();
@@ -68,7 +70,10 @@ public class TestUtils {
         return items;
     }
 
-    public static Item createItem(long id){
+    /*
+     * Create Item object and return it
+     */
+    public static Item createItem(long id) {
         Item item = new Item();
         item.setId(id);
 
@@ -76,14 +81,14 @@ public class TestUtils {
 
         item.setName("Item " + item.getId());
 
-        item.setDescription("Description ");
+        item.setDescription("Description of Item " + item.getId());
         return item;
     }
 
-    public static List<UserOrder> createOrders(){
+    public static List<UserOrder> createOrders() {
         List<UserOrder> orders = new ArrayList<>();
 
-        IntStream.range(0,2).forEach(i -> {
+        IntStream.range(0, 2).forEach(i -> {
             UserOrder order = new UserOrder();
             Cart cart = createCart(createUser());
 
