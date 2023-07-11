@@ -33,6 +33,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
+	// lombok Data creates the Cart object if it is null while getting it.
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
 	@JsonIgnore
