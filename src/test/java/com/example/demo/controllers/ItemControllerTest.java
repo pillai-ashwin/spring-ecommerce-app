@@ -17,6 +17,7 @@ import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.repositories.ItemRepository;
 
 import static com.example.demo.TestUtils.*;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
@@ -67,6 +68,17 @@ public class ItemControllerTest {
     }
 
     @Test
+    public void verify_getItemById_invalid(){
+
+        ResponseEntity<Item> response = itemController.getItemById(10L);
+        assertNotNull(response);
+        assertEquals(404, response.getStatusCodeValue());
+
+        assertNull(response.getBody());
+        verify(itemRepository, times(1)).findById(10L);
+    }
+
+    @Test
     public void verify_getItemByName(){
         ResponseEntity<List<Item>> response = itemController.getItemsByName("item");
 
@@ -77,5 +89,17 @@ public class ItemControllerTest {
         assertEquals(createItems(), items);
 
         verify(itemRepository , times(1)).findByName("item");
+    }
+
+    @Test
+    public void verify_getItemByName_invalid(){
+        ResponseEntity<List<Item>> response = itemController.getItemsByName("invalid name");
+
+        assertNotNull(response);
+        assertEquals(404, response.getStatusCodeValue());
+
+        assertNull(response.getBody());
+
+        verify(itemRepository , times(1)).findByName("invalid name");
     }
 }
