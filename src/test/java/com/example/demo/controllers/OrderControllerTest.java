@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,6 +60,18 @@ public class OrderControllerTest {
 
         verify(orderRepository, times(1)).save(order);
 
+    }
+
+    @Test
+    public void verify_submit_invalid(){
+
+        ResponseEntity<UserOrder> response = orderController.submit("invalid username");
+        assertNotNull(response);
+        assertEquals(404, response.getStatusCodeValue());
+
+        assertNull( response.getBody());
+
+        verify(userRepository, times(1)).findByUsername("invalid username");
     }
 
     @Test
